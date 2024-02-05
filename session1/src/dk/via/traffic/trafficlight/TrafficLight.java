@@ -42,8 +42,8 @@ public class TrafficLight {
                turnOff(Lights.RED, Lights.YELLOW);
                turnOn(Lights.GREEN);
         }
+        support.firePropertyChange("color", oldColor, color);
         lights.printLights();
-        support.firePropertyChange("light", oldColor, color);
     }
 
     public boolean isTurnedOn(String light) {
@@ -62,19 +62,11 @@ public class TrafficLight {
         this.lights.turnOff(lights);
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        support.addPropertyChangeListener(listener);
+    public void addPropertyChangeListener(PropertyChangeListener observer) {
+        support.addPropertyChangeListener(observer);
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        support.removePropertyChangeListener(listener);
-    }
-
-    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-        support.addPropertyChangeListener(propertyName, listener);
-    }
-
-    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-        support.removePropertyChangeListener(propertyName, listener);
+    public void removePropertyChangeListener(PropertyChangeListener observer) {
+        support.removePropertyChangeListener(observer);
     }
 }

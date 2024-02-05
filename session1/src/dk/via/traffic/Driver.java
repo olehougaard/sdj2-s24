@@ -33,7 +33,7 @@ public class Driver implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        TrafficLight light = (TrafficLight) evt.getSource();
-        onLightChange(light);
+        TrafficLight subject = (TrafficLight) evt.getSource();
+        onLightChange(subject);
     }
 }
