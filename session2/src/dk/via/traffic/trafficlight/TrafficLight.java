@@ -4,46 +4,31 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class TrafficLight {
-    private LightColor color;
+    private State state;
     private final Lights lights;
     private final PropertyChangeSupport support;
 
     public TrafficLight() {
-        color = LightColor.RED;
+        state = new Red();
         lights = new Lights();
         lights.turnOn(Lights.RED);
         lights.printLights();
         support = new PropertyChangeSupport(this);
     }
 
+    void setState(State state) {
+        this.state = state;
+    }
+
     public LightColor getColor() {
-        return color;
+        return state.getColor();
     }
 
     public void next() {
-       LightColor oldColor = color;
-        switch (color) {
-            case GREEN:
-                color = LightColor.YELLOW;
-                turnOff(Lights.GREEN);
-                turnOn(Lights.YELLOW);
-                break;
-            case YELLOW:
-                color = LightColor.RED;
-                turnOff(Lights.YELLOW);
-                turnOn(Lights.RED);
-                break;
-            case RED:
-                color = LightColor.RED_YELLOW;
-                turnOn(Lights.YELLOW);
-                break;
-            case RED_YELLOW:
-               color = LightColor.GREEN;
-               turnOff(Lights.RED, Lights.YELLOW);
-               turnOn(Lights.GREEN);
-        }
-        support.firePropertyChange("color", oldColor, color);
-        lights.printLights();
+       LightColor oldColor = getColor();
+       state.next(this);
+       support.firePropertyChange("color", oldColor, getColor());
+       lights.printLights();
     }
 
     public boolean isTurnedOn(String light) {
