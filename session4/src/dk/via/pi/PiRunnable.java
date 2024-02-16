@@ -12,11 +12,13 @@ public class PiRunnable implements Runnable {
 
     public synchronized void run() {
         pi = Pi.computePi(digits);
-        notifyAll();
+        this.notifyAll();
     }
 
     public synchronized BigDecimal getPi() throws InterruptedException {
-        wait();
+        while(pi == null) {
+            this.wait();
+        }
         return pi;
     }
 }
