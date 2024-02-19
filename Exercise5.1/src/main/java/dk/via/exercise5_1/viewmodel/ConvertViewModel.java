@@ -23,6 +23,7 @@ public class ConvertViewModel {
             reply.set(converted);
             error.set("");
         } catch (Exception e) {
+            reply.set("");
             error.set(e.getMessage());
         }
     }
@@ -32,10 +33,14 @@ public class ConvertViewModel {
     }
 
     public void bindReply(StringProperty property) {
-        reply.bind(property);
+        property.bind(reply);
     }
 
     public void bindError(StringProperty property) {
-        error.bind(property);
+        property.bind(error);
+    }
+
+    public void reset() {
+        error.set("");
     }
 }

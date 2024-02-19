@@ -31,6 +31,7 @@ public class ConvertViewController {
     }
 
     public void reset() {
+        viewModel.reset();
     }
 
     @FXML public void onSubmit() {

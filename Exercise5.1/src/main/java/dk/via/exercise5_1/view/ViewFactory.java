@@ -22,13 +22,15 @@ public class ViewFactory {
 
     public Region loadConvertView() {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("ConvertView.fxml"));
-            Region root = loader.load();
-            convertViewController = loader.getController();
-            convertViewController.init(viewHandler, viewModelFactory.getConvertViewModel(), root);
-            convertViewController.reset();
-            return root;
+            if (convertViewController == null) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("ConvertView.fxml"));
+                Region root = loader.load();
+                convertViewController = loader.getController();
+                convertViewController.init(viewHandler, viewModelFactory.getConvertViewModel(), root);
+                convertViewController.reset();
+            }
+            return convertViewController.getRoot();
         } catch (IOException e) {
             throw new IOError(e);
         }
