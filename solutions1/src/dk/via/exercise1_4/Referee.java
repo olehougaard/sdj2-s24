@@ -1,4 +1,4 @@
-package dk.via.exercise1_3;
+package dk.via.exercise1_4;
 
 public class Referee {
     public Referee(SoccerMatch match) {

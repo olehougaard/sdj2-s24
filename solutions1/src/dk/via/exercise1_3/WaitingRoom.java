@@ -1,4 +1,4 @@
-package dk.via.exercise1_2;
+package dk.via.exercise1_3;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

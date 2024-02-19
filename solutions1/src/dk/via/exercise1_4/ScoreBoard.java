@@ -1,4 +1,4 @@
-package dk.via.exercise1_3;
+package dk.via.exercise1_4;
 
 public class ScoreBoard {
     private final SoccerMatch match;

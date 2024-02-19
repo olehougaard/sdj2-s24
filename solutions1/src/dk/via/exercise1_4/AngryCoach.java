@@ -1,4 +1,4 @@
-package dk.via.exercise1_3;
+package dk.via.exercise1_4;
 
 public class AngryCoach {
     public AngryCoach(SoccerMatch match, int whichTeam) {
