@@ -4,13 +4,13 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
 public interface Model {
-    double add(double a, double b) throws IOException;
+    double add(double a, double b);
 
-    double subtract(double a, double b) throws IOException;
+    double subtract(double a, double b);
 
-    double multiply(double a, double b) throws IOException;
+    double multiply(double a, double b);
 
-    double divide(double a, double b) throws IOException;
+    double divide(double a, double b);
 
     void addPropertyChangeListener(PropertyChangeListener listener);
 

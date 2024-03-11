@@ -11,10 +11,12 @@ import java.net.Socket;
 public class MathCommunicator implements Runnable {
     private final Socket socket;
     private final Gson gson;
+    private final Model model;
 
     public MathCommunicator(Socket socket) {
         this.socket = socket;
         this.gson = new Gson();
+        model = new Model();
     }
 
     private void communicate() throws IOException {
@@ -24,20 +26,11 @@ public class MathCommunicator implements Runnable {
             while (true) {
                 String json = input.readLine();
                 Expression expression = gson.fromJson(json, Expression.class);
-                String operator = expression.getOperator();
-                double a = expression.getOperand1();
-                double b = expression.getOperand2();
-                if (operator.equals("exit")) {
+                if (expression.getOperator().equals("exit")) {
                     System.out.println("Exiting");
                     break;
                 }
-                Result r = switch (operator) {
-                    case "+" -> new Result(a + b);
-                    case "-" -> new Result(a - b);
-                    case "*" -> new Result(a * b);
-                    case "/" -> new Result(a / b);
-                    default -> new Result(Double.NaN);
-                };
+                Result r = model.compute(expression);
                 String resultJson = gson.toJson(r);
                 output.println(resultJson);
                 output.flush();

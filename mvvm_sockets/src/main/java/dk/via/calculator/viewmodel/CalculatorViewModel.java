@@ -36,9 +36,9 @@ public class CalculatorViewModel implements PropertyChangeListener {
             double sum = model.add(a, b);
             result.set(String.format("%f + %f = %f", a, b, sum));
             error.set("");
-        } catch (IOException e) {
+        } catch (RuntimeException e) {
             result.set("");
-            error.set("Server communication error");
+            error.set(e.getMessage());
         }
     }
 
@@ -49,9 +49,9 @@ public class CalculatorViewModel implements PropertyChangeListener {
             double difference = model.subtract(a, b);
             result.set(String.format("%f - %f = %f", a, b, difference));
             error.set("");
-        } catch (IOException e) {
+        } catch (RuntimeException e) {
             result.set("");
-            error.set("Server communication error");
+            error.set(e.getMessage());
         }
     }
 
@@ -62,9 +62,9 @@ public class CalculatorViewModel implements PropertyChangeListener {
             double product = model.multiply(a, b);
             result.set(String.format("%f * %f = %f", a, b, product));
             error.set("");
-        } catch (IOException e) {
+        } catch (RuntimeException e) {
             result.set("");
-            error.set("Server communication error");
+            error.set(e.getMessage());
         }
     }
 
@@ -80,9 +80,9 @@ public class CalculatorViewModel implements PropertyChangeListener {
                 result.set("");
                 error.set("Division by zero"); // The only way to get "Not a Number"
             }
-        } catch (IOException e) {
+        } catch (RuntimeException e) {
             result.set("");
-            error.set("Server communication error");
+            error.set(e.getMessage());
         }
     }
 

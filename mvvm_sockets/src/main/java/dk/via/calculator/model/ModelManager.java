@@ -23,23 +23,39 @@ public class ModelManager implements Model, PropertyChangeListener {
     }
 
     @Override
-    public double add(double a, double b) throws IOException {
-        return client.plus(a, b);
+    public double add(double a, double b)  {
+        try {
+            return client.plus(a, b);
+        } catch (IOException e) {
+            throw new RuntimeException("Server communication error", e);
+        }
     }
 
     @Override
-    public double subtract(double a, double b) throws IOException {
-        return client.minus(a, b);
+    public double subtract(double a, double b) {
+        try {
+            return client.minus(a, b);
+        } catch (IOException e) {
+            throw new RuntimeException("Server communication error", e);
+        }
     }
 
     @Override
-    public double multiply(double a, double b) throws IOException {
-        return client.times(a, b);
+    public double multiply(double a, double b) {
+        try {
+            return client.times(a, b);
+        } catch (IOException e) {
+            throw new RuntimeException("Server communication error", e);
+        }
     }
 
     @Override
-    public double divide(double a, double b) throws IOException {
-        return client.divide(a, b);
+    public double divide(double a, double b) {
+        try {
+            return client.divide(a, b);
+        } catch (IOException e) {
+            throw new RuntimeException("Server communication error", e);
+        }
     }
 
     @Override
