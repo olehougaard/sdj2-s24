@@ -14,7 +14,7 @@ import java.io.IOException;
 public class CalculatorApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        MathClient client = new MathClientImplementation("localhost", 8888);
+        MathClient client = new MathClientImplementation("localhost", 8080);
         Model model = new ModelManager(client);
         ViewModelFactory viewModelFactory = new ViewModelFactory(model);
         ViewHandler viewHandler = new ViewHandler(viewModelFactory);

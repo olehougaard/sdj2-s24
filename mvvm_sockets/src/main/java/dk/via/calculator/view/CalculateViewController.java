@@ -10,6 +10,7 @@ public class CalculateViewController {
     @FXML public TextField firstOperand;
     @FXML public TextField secondOperand;
     @FXML public Label result;
+    @FXML public Label message;
     @FXML private Label error;
 
     private ViewHandler viewHandler;
@@ -44,6 +45,7 @@ public class CalculateViewController {
         convertViewModel.bindFirst(firstOperand.textProperty());
         convertViewModel.bindSecond(secondOperand.textProperty());
         convertViewModel.bindResult(result.textProperty());
+        convertViewModel.bindMessage(message.textProperty());
         convertViewModel.bindError(error.textProperty());
     }
 

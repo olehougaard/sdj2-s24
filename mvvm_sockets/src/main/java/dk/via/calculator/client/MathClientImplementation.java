@@ -21,6 +21,7 @@ public class MathClientImplementation implements MathClient {
     private final BufferedReader input;
     private final Gson gson;
     private final PropertyChangeSupport support;
+    private final MessageListener listener;
 
     public MathClientImplementation(String host, int port) throws IOException {
         socket = new Socket(host, port);
@@ -28,50 +29,43 @@ public class MathClientImplementation implements MathClient {
         input = StreamFactory.createReader(socket);
         gson = new Gson();
         support = new PropertyChangeSupport(this);
+
+        listener = new MessageListener(this, "230.0.0.0", 8888);
+        Thread thread = new Thread(listener);
+        thread.start();
+    }
+
+    private double compute(Expression expression) throws IOException {
+        String json = gson.toJson(expression);
+        output.println(json);
+        output.flush();
+        String resultJson = input.readLine();
+        Result result = gson.fromJson(resultJson, Result.class);
+        return result.getValue();
     }
 
     @Override
     public double plus(double operand1, double operand2) throws IOException {
         Expression expression = new Expression("+", operand1, operand2);
-        String json = gson.toJson(expression);
-        output.println(json);
-        output.flush();
-        String resultJson = input.readLine();
-        Result result = gson.fromJson(resultJson, Result.class);
-        return result.getValue();
+        return compute(expression);
     }
 
     @Override
     public double minus(double operand1, double operand2) throws IOException {
         Expression expression = new Expression("-", operand1, operand2);
-        String json = gson.toJson(expression);
-        output.println(json);
-        output.flush();
-        String resultJson = input.readLine();
-        Result result = gson.fromJson(resultJson, Result.class);
-        return result.getValue();
+        return compute(expression);
     }
 
     @Override
     public double times(double operand1, double operand2) throws IOException {
         Expression expression = new Expression("*", operand1, operand2);
-        String json = gson.toJson(expression);
-        output.println(json);
-        output.flush();
-        String resultJson = input.readLine();
-        Result result = gson.fromJson(resultJson, Result.class);
-        return result.getValue();
+        return compute(expression);
     }
 
     @Override
     public double divide(double operand1, double operand2) throws IOException {
-        Expression expression = new Expression("*", operand1, operand2);
-        String json = gson.toJson(expression);
-        output.println(json);
-        output.flush();
-        String resultJson = input.readLine();
-        Result result = gson.fromJson(resultJson, Result.class);
-        return result.getValue();
+        Expression expression = new Expression("/", operand1, operand2);
+        return compute(expression);
     }
 
     @Override
@@ -79,6 +73,7 @@ public class MathClientImplementation implements MathClient {
         output.println(EXIT_JSON);
         output.flush();
         socket.close();
+        listener.close();
     }
 
     @Override
@@ -89,5 +84,10 @@ public class MathClientImplementation implements MathClient {
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
+    }
+
+    public void receiveBroadcast(String message) {
+        Result result = gson.fromJson(message, Result.class);
+        support.firePropertyChange("result", null, result);
     }
 }

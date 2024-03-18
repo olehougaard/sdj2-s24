@@ -1,6 +1,7 @@
 package dk.via.calculator.viewmodel;
 
 import dk.via.calculator.model.Model;
+import dk.via.calculator.model.Result;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -17,6 +18,7 @@ public class CalculatorViewModel implements PropertyChangeListener {
     private final DoubleProperty firstOperand;
     private final DoubleProperty secondOperand;
     private final StringProperty result;
+    private final StringProperty message;
     private final StringProperty error;
     private final NumberStringConverter stringConverter;
 
@@ -25,8 +27,10 @@ public class CalculatorViewModel implements PropertyChangeListener {
         this.firstOperand = new SimpleDoubleProperty(0);
         this.secondOperand = new SimpleDoubleProperty(0);
         this.result = new SimpleStringProperty("");
+        this.message = new SimpleStringProperty("");
         this.error = new SimpleStringProperty("");
         this.stringConverter = new NumberStringConverter();
+        model.addPropertyChangeListener(this);
     }
 
     public void add() {
@@ -98,6 +102,10 @@ public class CalculatorViewModel implements PropertyChangeListener {
         property.bind(result);
     }
 
+    public void bindMessage(StringProperty property) {
+        property.bind(message);
+    }
+
     public void bindError(StringProperty property) {
         property.bind(error);
     }
@@ -105,7 +113,8 @@ public class CalculatorViewModel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         Platform.runLater(() -> {
-            result.set("Change happened");
+            Result result = (Result) evt.getNewValue();
+            message.set(result.toString());
         });
     }
 }

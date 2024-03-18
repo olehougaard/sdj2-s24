@@ -6,11 +6,12 @@ import java.net.Socket;
 
 public class MathServer {
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(8888);
+        ServerSocket serverSocket = new ServerSocket(8080);
+        UDPBroadcaster broadcaster = new UDPBroadcaster("230.0.0.0", 8888);
         while(true) {
-            System.out.println("Server is ready for input port 8888");
+            System.out.println("Server is ready for input port 8080");
             Socket socket = serverSocket.accept();
-            MathCommunicator communicator = new MathCommunicator(socket);
+            MathCommunicator communicator = new MathCommunicator(socket, broadcaster);
             Thread communicatorThread = new Thread(communicator);
             communicatorThread.start();
         }

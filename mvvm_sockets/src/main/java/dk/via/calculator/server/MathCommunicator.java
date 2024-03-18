@@ -10,11 +10,13 @@ import java.net.Socket;
 
 public class MathCommunicator implements Runnable {
     private final Socket socket;
+    private final UDPBroadcaster broadcaster;
     private final Gson gson;
     private final Model model;
 
-    public MathCommunicator(Socket socket) {
+    public MathCommunicator(Socket socket, UDPBroadcaster broadcaster) {
         this.socket = socket;
+        this.broadcaster = broadcaster;
         this.gson = new Gson();
         model = new Model();
     }
@@ -34,6 +36,7 @@ public class MathCommunicator implements Runnable {
                 String resultJson = gson.toJson(r);
                 output.println(resultJson);
                 output.flush();
+                broadcaster.broadcast(resultJson);
             }
         } finally {
             socket.close();
