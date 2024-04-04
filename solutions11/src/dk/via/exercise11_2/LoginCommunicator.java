@@ -24,7 +24,7 @@ public class LoginCommunicator implements Runnable {
                 output.writeObject("Login required");
                 output.flush();
                 Login login = (Login) input.readObject();
-                if (login.getUsername().isBlank() || login.getPassword().isBlank()) { // In real situations: Replace with proper check
+                if (login.username().isBlank() || login.password().isBlank()) { // In real situations: Replace with proper check
                     output.writeObject("Disconnected");
                 } else {
                     output.writeObject("Approved"); // In real situation: Return a unique token as proof of login
