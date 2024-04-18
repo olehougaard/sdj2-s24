@@ -120,7 +120,6 @@ class StackTest {
             stack.pop();
         });
     }
-
     @Test
     void peek_on_an_empty_should_throw_IllegalStateException() {
         assertThrows(IllegalStateException.class, () -> {
