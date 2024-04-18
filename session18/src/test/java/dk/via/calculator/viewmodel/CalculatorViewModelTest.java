@@ -39,6 +39,7 @@ public class CalculatorViewModelTest {
         second.set("2");
         viewModel.divide();
         assertEquals("3.0 / 2.0 = 1.5", result.get());
+        Mockito.verify(model).divide(3, 2);
     }
 
     @Test
@@ -48,15 +49,17 @@ public class CalculatorViewModelTest {
         second.set("0");
         viewModel.divide();
         assertEquals("", result.get());
+        Mockito.verify(model).divide(3, 0);
     }
 
     @Test
     void division_by_zero_sets_error() throws IOException {
-        Mockito.when(model.divide(3, 0)).thenReturn(3.0 / 0);
+        Mockito.when(model.divide(3, 0)).thenReturn(Double.POSITIVE_INFINITY);
         first.set("3");
         second.set("0");
         viewModel.divide();
         assertEquals("Division by zero", error.get());
+        Mockito.verify(model).divide(3, 0);
     }
 
     @Test
@@ -66,5 +69,6 @@ public class CalculatorViewModelTest {
         second.set("2");
         viewModel.divide();
         assertEquals("Server communication error", error.get());
+        Mockito.verify(model).divide(3, 2);
     }
 }
