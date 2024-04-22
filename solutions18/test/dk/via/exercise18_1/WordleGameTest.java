@@ -14,20 +14,22 @@ class WordleGameTest {
     private Dictionary dictionary;
 
     @BeforeEach
-    void setUp() throws RemoteException {
+    void setUp() {
         dictionary = Mockito.mock(Dictionary.class);
     }
 
     @Test
     void too_short_words_are_not_allowed_as_guesses() throws RemoteException {
         WordleGame game = new WordleGame(5, dictionary);
-        assertThrows(IllegalArgumentException.class, () -> game.guess("ABCD"));
+        Throwable t = assertThrows(IllegalArgumentException.class, () -> game.guess("ABCD"));
+        assertEquals("Word too short: ABCD", t.getMessage());
     }
 
     @Test
     void too_long_words_are_not_allowed_as_guesses() throws RemoteException {
         WordleGame game = new WordleGame(5, dictionary);
-        assertThrows(IllegalArgumentException.class, () -> game.guess("ABCDEF"));
+        Throwable t = assertThrows(IllegalArgumentException.class, () -> game.guess("ABCDEF"));
+        assertEquals("Word too long: ABCDEF", t.getMessage());
     }
 
     @Test
@@ -35,7 +37,6 @@ class WordleGameTest {
         WordleGame game = new WordleGame(5, dictionary);
         assertThrows(IllegalArgumentException.class, () -> game.guess("ABCD"));
         Throwable t = assertThrows(IllegalArgumentException.class, () -> game.guess("ABCDEF"));
-        assertEquals("Word too long: ABCDEF", t.getMessage());
         Mockito.verify(dictionary, Mockito.never()).lookup(Mockito.anyString());
     }
 
