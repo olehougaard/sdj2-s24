@@ -2,15 +2,18 @@ package dk.via.ballpit.accessmanager;
 
 import dk.via.ballpit.BallPit;
 import dk.via.ballpit.ReadOnlyBallPit;
+import dk.via.ballpit.ReadOnlyProxy;
 
 public class WriterPreferredAccessManager implements AccessManager {
     private final BallPit ballPit;
+    private final ReadOnlyBallPit readOnlyBallPit;
     private int readers;
     private int writers;
     private int writersWaiting;
 
     public WriterPreferredAccessManager(BallPit ballPit) {
         this.ballPit = ballPit;
+        this.readOnlyBallPit = new ReadOnlyProxy(ballPit);
         this.readers = 0;
         this.writers = 0;
         this.writersWaiting = 0;
@@ -30,7 +33,7 @@ public class WriterPreferredAccessManager implements AccessManager {
             wait();
         }
         readers++;
-        return ballPit;
+        return readOnlyBallPit;
     }
 
     @Override
