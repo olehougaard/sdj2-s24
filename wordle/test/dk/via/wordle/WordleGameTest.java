@@ -36,4 +36,6 @@ class WordleGameTest {
         assertThrows(IllegalArgumentException.class, () -> game.guess("ABCDEF"));
         Mockito.verify(dictionary, Mockito.never()).lookup(Mockito.anyString());
     }
+
+
 }
